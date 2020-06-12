@@ -18,21 +18,21 @@ class Mob(BaseEntity):
     def handle_events(self, events):
         pass
 
-    def update(self, micro, map_):
-        super().update(micro)
+    def update(self, micro, world):
+        super().update(micro, world)
         self._angle += random.randint(-5, 5)
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._x += dx * micro
         self._y += dy * micro
 
-        if self._x + self._entity_surface.get_width() >= map_._width:
+        if self._x + self._entity_surface.get_width() >= world._width:
             self.set_angle(180 - self._angle)
         elif self._x <= 0:
             self.set_angle(180 - self._angle)
         if self._y <= 0:
             self.set_angle(360 - self._angle)
-        elif self._y + self._entity_surface.get_height() >= map_._height:
+        elif self._y + self._entity_surface.get_height() >= world._height:
             self.set_angle(360 - self._angle)
 
     def render(self, surface):

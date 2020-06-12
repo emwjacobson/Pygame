@@ -3,7 +3,7 @@ import settings
 from typing import List
 
 
-class BaseMap:
+class BaseWorld:
     _width: int
     _height: int
     _x: int

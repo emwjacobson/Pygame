@@ -51,7 +51,7 @@ class BaseEntity:
     def handle_events(self, events):
         pass
 
-    def update(self, micro):
+    def update(self, micro, world):
         self._counter = (self._counter + micro) % 1
         print(self._counter)
 

@@ -1,12 +1,12 @@
 import pygame
 import settings
-from .basemap import BaseMap
+from .baseworld import BaseWorld
 from entity.mob import BaseEntity, Mob
 import random
 import math
 
 
-class DirtMap(BaseMap):
+class DirtWorld(BaseWorld):
     def __init__(self, width=500, height=500):
         self._width = width
         self._height = height
