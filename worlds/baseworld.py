@@ -12,6 +12,12 @@ class BaseWorld:
     def __init__(self):
         pass
 
+    def get_width(self):
+        return self._width
+
+    def get_height(self):
+        return self._height
+
     def init_background(self):
         pass
 

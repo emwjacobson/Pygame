@@ -34,3 +34,4 @@ while True:
     cur_map.render(screen)
 
     pygame.display.update()
+    print(clock.get_fps())

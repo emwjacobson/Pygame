@@ -53,7 +53,6 @@ class BaseEntity:
 
     def update(self, micro, world):
         self._counter = (self._counter + micro) % 1
-        print(self._counter)
 
     def render(self, surface):
         pass

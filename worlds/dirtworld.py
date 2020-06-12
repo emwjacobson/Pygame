@@ -28,9 +28,9 @@ class DirtWorld(BaseWorld):
                 self.map_surface.blit(background_texture, (x, y))
 
     def populate_map(self):
-        for i in range(1):
+        for i in range(1000):
             self._entities.append(Mob(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
-                                      random.randint(0, 360), 100))
+                                      random.randint(0, 360), random.randint(100, 300)))
 
     def handle_events(self, events):
         for e in events:
