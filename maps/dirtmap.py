@@ -7,9 +7,9 @@ import math
 
 
 class DirtMap(BaseMap):
-    def __init__(self):
-        self._width = 500
-        self._height = 500
+    def __init__(self, width=500, height=500):
+        self._width = width
+        self._height = height
         self._x = 0
         self._y = 0
         self._dx = 0
@@ -30,7 +30,7 @@ class DirtMap(BaseMap):
     def populate_map(self):
         for i in range(1):
             self._entities.append(Mob(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
-                                      random.randint(0, 360), random.randint(100, 200)))
+                                      random.randint(0, 360), 100))
 
     def handle_events(self, events):
         for e in events:
@@ -70,21 +70,10 @@ class DirtMap(BaseMap):
     def update(self, micro):
         self._x += self._dx * micro
         self._y += self._dy * micro
+
         e: BaseEntity
         for e in self._entities:
-            e.update(micro)
-            if e.get_x() + e.get_width() >= self._width:
-                e.set_angle(180 - e.get_angle())
-                e.update(micro)
-            if e.get_x() <= 0:
-                e.set_angle(180 - e.get_angle())
-                e.update(micro)
-            if e.get_y() <= 0:
-                e.set_angle(360 - e.get_angle())
-                e.update(micro)
-            if e.get_y() + e.get_height() >= self._height:
-                e.set_angle(360 - e.get_angle())
-                e.update(micro)
+            e.update(micro, self)
 
     def render(self, screen):
         # Render map background
