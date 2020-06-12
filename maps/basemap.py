@@ -1,17 +1,22 @@
 import pygame
 import settings
+from typing import List
 
 
 class BaseMap:
-    background_texture: pygame.Surface
-    background_surface: pygame.Surface
+    _width: int
+    _height: int
+    _x: int
+    _y: int
 
     def __init__(self):
-        self.background_texture = pygame.image.load(settings.TEXTURE_DIR + "dirt.png")
-        self.background_surface = pygame.Surface((settings.WIDTH, settings.HEIGHT))
-        for x in range(0, settings.WIDTH, 32):
-            for y in range(0, settings.HEIGHT, 32):
-                self.background_surface.blit(self.background_texture, (x, y))
+        pass
 
-    def render(self, screen, events):
-        screen.blit(self.background_surface, (0, 0))
+    def init_background(self):
+        pass
+
+    def handle_events(self, events):
+        pass
+
+    def render(self, micro, screen):
+        pass
