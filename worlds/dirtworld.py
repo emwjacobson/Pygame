@@ -15,9 +15,11 @@ class DirtWorld(BaseWorld):
         self._dx = 0
         self._dy = 0
         self._entities = []
+        self._pan_speed = 300
+        self._zoom = 1
 
         self.map_surface = pygame.Surface((self._width, self._height))
-        self.player_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
+        self.entity_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
         self.init_background()
         self.populate_map()
 
@@ -28,42 +30,66 @@ class DirtWorld(BaseWorld):
                 self.map_surface.blit(background_texture, (x, y))
 
     def populate_map(self):
-        for i in range(1000):
+        for i in range(30):
             self._entities.append(Mob(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
                                       random.randint(0, 360), random.randint(100, 300)))
 
     def handle_events(self, events):
         for e in events:
             if e.type == pygame.KEYDOWN:
+                # Handle Pan controls
                 if e.key == pygame.K_a:
-                    self._dx = 100
+                    self._dx = self._pan_speed
                 elif e.key == pygame.K_d:
-                    self._dx = -100
+                    self._dx = -self._pan_speed
 
-                if e.key == pygame.K_w:
-                    self._dy = 100
+                elif e.key == pygame.K_w:
+                    self._dy = self._pan_speed
                 elif e.key == pygame.K_s:
-                    self._dy = -100
+                    self._dy = -self._pan_speed
+
+                # Pan speed
+                elif e.key == pygame.K_PAGEUP:
+                    self._pan_speed += 100
+                elif e.key == pygame.K_PAGEDOWN:
+                    self._pan_speed -= 100
+
+                # Zoom
+                # Zooming is a bit funky, as it will zoom based on the upper
+                # left area of the surface, so need to adjust the x and y
+                # elif e.key == pygame.K_LEFTBRACKET and self._zoom < 2:
+                #     self._zoom += 0.1
+                #     new_x = self._width * (self._zoom - 1) * 0.5
+                #     self._x -= new_x
+                #     new_y = self._height * (self._zoom - 1) * 0.5
+                #     self._y -= new_y
+                # elif e.key == pygame.K_RIGHTBRACKET and self._zoom > 0.5:
+                #     self._zoom -= 0.1
+                #     new_x = self._width * (self._zoom - 1) * 0.5
+                #     self._x -= new_x
+                #     new_y = self._height * (self._zoom - 1) * 0.5
+                #     self._y -= new_y
             elif e.type == pygame.KEYUP:
+                # Handle Pan controls
                 if e.key == pygame.K_a:
                     if pygame.key.get_pressed()[pygame.K_d]:
-                        self._dx = -100
+                        self._dx = -self._pan_speed
                     else:
                         self._dx = 0
                 elif e.key == pygame.K_d:
                     if pygame.key.get_pressed()[pygame.K_a]:
-                        self._dx = 100
+                        self._dx = self._pan_speed
                     else:
                         self._dx = 0
 
-                if e.key == pygame.K_w:
+                elif e.key == pygame.K_w:
                     if pygame.key.get_pressed()[pygame.K_s]:
-                        self._dy = -100
+                        self._dy = -self._pan_speed
                     else:
                         self._dy = 0
                 elif e.key == pygame.K_s:
                     if pygame.key.get_pressed()[pygame.K_w]:
-                        self._dy = 100
+                        self._dy = self._pan_speed
                     else:
                         self._dy = 0
 
@@ -76,12 +102,16 @@ class DirtWorld(BaseWorld):
             e.update(micro, self)
 
     def render(self, screen):
+        f_world = pygame.Surface((self._width, self._height))
+
         # Render map background
-        screen.blit(self.map_surface, (self._x, self._y))
+        f_world.blit(self.map_surface, (0, 0))
 
         # Render entities
-        self.player_surface.fill((0, 0, 0, 0))
+        self.entity_surface.fill((0, 0, 0, 0))
         for e in self._entities:
-            e.render(self.player_surface)
+            e.render(self.entity_surface)
 
-        screen.blit(self.player_surface, (self._x, self._y))
+        f_world.blit(self.entity_surface, (0, 0))
+
+        screen.blit(pygame.transform.scale(f_world, (int(self._width * self._zoom), int(self._height * self._zoom))), (self._x, self._y))

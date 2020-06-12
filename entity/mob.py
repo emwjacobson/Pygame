@@ -40,5 +40,7 @@ class Mob(BaseEntity):
             self.set_angle(360 - self._angle)
             self._y = world.get_height() - self._entity_surface.get_height()
 
-    def render(self, surface):
+    def render(self, surface: pygame.Surface):
+        if self._x < 0 or self._x > surface.get_width() or self._y < 0 or self._y > surface.get_height():
+            return
         surface.blit(self._entity_surface, (self._x, self._y))
