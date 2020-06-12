@@ -12,16 +12,19 @@ class Mob(BaseEntity):
         self._x = x
         self._y = y
         # Angle is in degrees, 0 being to the right, moving clockwise
-        self._angle = self.set_angle(angle)
+        self.set_angle(angle)
         self._speed = speed
 
     def handle_events(self, events):
         pass
 
-    def render(self, micro, surface):
+    def update(self, micro):
+        super().update(micro)
+        self._angle += random.randint(-5, 5)
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._x += dx * micro
         self._y += dy * micro
-        self._angle += random.randint(-5, 5)
+
+    def render(self, surface):
         surface.blit(self._entity_surface, (self._x, self._y))

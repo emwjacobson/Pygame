@@ -28,7 +28,7 @@ class DirtMap(BaseMap):
                 self.map_surface.blit(background_texture, (x, y))
 
     def populate_map(self):
-        for i in range(20):
+        for i in range(1):
             self._entities.append(Mob(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
                                       random.randint(0, 360), random.randint(100, 200)))
 
@@ -67,24 +67,32 @@ class DirtMap(BaseMap):
                     else:
                         self._dy = 0
 
-    def render(self, micro, screen):
+    def update(self, micro):
         self._x += self._dx * micro
         self._y += self._dy * micro
+        e: BaseEntity
+        for e in self._entities:
+            e.update(micro)
+            if e.get_x() + e.get_width() >= self._width:
+                e.set_angle(180 - e.get_angle())
+                e.update(micro)
+            if e.get_x() <= 0:
+                e.set_angle(180 - e.get_angle())
+                e.update(micro)
+            if e.get_y() <= 0:
+                e.set_angle(360 - e.get_angle())
+                e.update(micro)
+            if e.get_y() + e.get_height() >= self._height:
+                e.set_angle(360 - e.get_angle())
+                e.update(micro)
 
+    def render(self, screen):
         # Render map background
         screen.blit(self.map_surface, (self._x, self._y))
 
         # Render entities
         self.player_surface.fill((0, 0, 0, 0))
-        e: BaseEntity
         for e in self._entities:
-            e.render(micro, self.player_surface)
-            if e.get_x() + e.get_width() >= self._width:
-                e.set_angle(180 - e.get_angle())
-            if e.get_x() <= 0:
-                e.set_angle(180 - e.get_angle())
-            if e.get_y() <= 0:
-                e.set_angle(360 - e.get_angle())
-            if e.get_y() + e.get_height() >= self._height:
-                e.set_angle(360 - e.get_angle())
+            e.render(self.player_surface)
+
         screen.blit(self.player_surface, (self._x, self._y))

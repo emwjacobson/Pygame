@@ -30,6 +30,7 @@ while True:
     screen.fill((0, 0, 0))
 
     cur_map.handle_events(events)
-    cur_map.render(micro, screen)
+    cur_map.update(micro)
+    cur_map.render(screen)
 
     pygame.display.update()

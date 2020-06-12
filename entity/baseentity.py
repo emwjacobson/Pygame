@@ -7,9 +7,10 @@ class BaseEntity:
     _speed: int
     _angle: int
     _entity_surface: pygame.Surface
+    _counter: float
 
     def __init__(self):
-        pass
+        self._counter = 0
 
     def get_x(self):
         return self._x
@@ -50,7 +51,11 @@ class BaseEntity:
     def handle_events(self, events):
         pass
 
-    def render(self, micro, surface, events):
+    def update(self, micro):
+        self._counter = (self._counter + micro) % 1
+        print(self._counter)
+
+    def render(self, surface):
         pass
 
 # ad	speed = 0		angle = _

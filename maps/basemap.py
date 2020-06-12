@@ -18,5 +18,8 @@ class BaseMap:
     def handle_events(self, events):
         pass
 
-    def render(self, micro, screen):
+    def update(self, micro):
+        pass
+
+    def render(self, screen):
         pass
