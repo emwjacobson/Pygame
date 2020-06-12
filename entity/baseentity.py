@@ -36,6 +36,7 @@ class BaseEntity:
         self._speed = speed
 
     def set_angle(self, angle):
+        # TODO: Make this use modulo
         if angle < 0:
             self.set_angle(360 + angle)
         elif angle >= 360:

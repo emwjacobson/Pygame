@@ -12,7 +12,7 @@ class Mob(BaseEntity):
         self._x = x
         self._y = y
         # Angle is in degrees, 0 being to the right, moving clockwise
-        self._angle = angle
+        self._angle = self.set_angle(angle)
         self._speed = speed
 
     def handle_events(self, events):
