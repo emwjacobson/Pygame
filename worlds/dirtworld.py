@@ -20,7 +20,7 @@ class DirtWorld(BaseWorld):
         # Skeleton Sprites
         for i in range(50):
             self._entities.append(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
-                                  random.randint(0, 360), random.randint(100, 150)))
+                                  random.randint(0, 360), random.randint(50, 50)))
 
         # Player
         self._entities.append(Player())

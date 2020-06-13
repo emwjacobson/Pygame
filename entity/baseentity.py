@@ -8,7 +8,7 @@ class BaseEntity:
     _sprite_map: pygame.Surface
     _counter: float
 
-    def __init__(self, pos=[0, 0], angle=0, speed=0):
+    def __init__(self, pos=[0, 0], angle=0, speed=0, max_speed=100):
         """Initializes a new BaseEntity.
 
         Args:
@@ -21,6 +21,7 @@ class BaseEntity:
         self._speed = speed
         self._counter = 0
         self._sprite_map = None
+        self._max_speed = max_speed
 
     def get_x(self):
         """Gets the x position of the entity, relative to the world
@@ -124,7 +125,7 @@ class BaseEntity:
             micro (float): Time in seconds that the last frame too.
             world (BaseWorld): The world that the entity belongs to
         """
-        self._counter = (self._counter + micro) % 1
+        self._counter += micro
 
     def render(self, surface: pygame.Surface):
         """Renders the entity to a given surface

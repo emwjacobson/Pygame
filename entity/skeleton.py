@@ -21,15 +21,19 @@ class Skeleton(BaseEntity):
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 144, 0, 3, 4, 2)
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
+        self._random_wait = random.randint(10, 20)
 
     def update(self, micro, world: BaseWorld):
         super().update(micro, world)
+
+        # Apply a random angle to make then walk in more than straight lines
         self._angle += random.randint(-5, 5)
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._pos[0] += dx * micro
         self._pos[1] += dy * micro
 
+        # Check boundries on the world, if they hit one then bounce off
         if self.get_x() + self._sprite_map[0].get_width() >= world.get_width():
             self.set_angle(180 - self._angle)
             self.set_x(world.get_width() - self._sprite_map[0].get_width())
@@ -43,15 +47,26 @@ class Skeleton(BaseEntity):
             self.set_angle(360 - self._angle)
             self.set_y(world.get_height() - self._sprite_map[0].get_height())
 
-        if self._counter > 0.75:
-            self._cur_dir_mod = -1
-        elif self._counter > 0.5:
+        # Control the animation based on time
+        c = self._counter % 1
+        if self._speed == 0:
             self._cur_dir_mod = 0
-        elif self._counter > 0.25:
+        elif c > 0.75:
+            self._cur_dir_mod = -1
+        elif c > 0.5:
+            self._cur_dir_mod = 0
+        elif c > 0.25:
             self._cur_dir_mod = 1
         else:
             self._cur_dir_mod = 0
 
+        # Make this sprite stop moving for 2 second every _random_wait seconds
+        if self._counter > self._random_wait and self._counter % self._random_wait <= 2:
+            self._speed = 0
+        else:
+            self._speed = self._max_speed
+
+        # Set the current direction based on current angle
         if self._angle > 315 or self._angle <= 45:
             self._cur_dir = self.Positons.RIGHT
         elif self._angle > 225 and self._angle <= 315:
