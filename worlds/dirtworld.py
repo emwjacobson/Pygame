@@ -1,7 +1,7 @@
 import pygame
 import settings
 from .baseworld import BaseWorld
-from entity.mob import BaseEntity, Mob
+from entity.skeleton import BaseEntity, Skeleton
 import random
 import math
 
@@ -31,8 +31,8 @@ class DirtWorld(BaseWorld):
 
     def populate_map(self):
         for i in range(50):
-            self._entities.append(Mob(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
-                                      random.randint(0, 360), random.randint(100, 150)))
+            self._entities.append(Skeleton(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
+                                  random.randint(0, 360), random.randint(100, 150)))
 
     def handle_events(self, events):
         for e in events:

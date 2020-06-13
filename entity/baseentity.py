@@ -9,7 +9,11 @@ class BaseEntity:
     _entity_surface: pygame.Surface
     _counter: float
 
-    def __init__(self):
+    def __init__(self, x=0, y=0, angle=0, speed=0):
+        self._x = x
+        self._y = y
+        self._angle = angle
+        self._speed = speed
         self._counter = 0
 
     def get_x(self):

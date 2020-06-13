@@ -9,7 +9,7 @@ from utils.spriteloader import SpriteLoader
 from enum import Enum
 
 
-class Mob(BaseEntity):
+class Skeleton(BaseEntity):
     class Positons(Enum):
         DOWN = 1
         LEFT = 4
@@ -17,13 +17,8 @@ class Mob(BaseEntity):
         UP = 10
 
     def __init__(self, x=0, y=0, angle=0, speed=0):
-        super().__init__()
+        super().__init__(x, y, angle, speed)
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 144, 0, 3, 4, 2)
-        self._x = x
-        self._y = y
-        # Angle is in degrees, 0 being to the right, moving clockwise
-        self.set_angle(angle)
-        self._speed = speed
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
 
@@ -32,7 +27,7 @@ class Mob(BaseEntity):
 
     def update(self, micro, world: BaseWorld):
         super().update(micro, world)
-        # self._angle += random.randint(-5, 5)
+        self._angle += random.randint(-5, 5)
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._x += dx * micro
