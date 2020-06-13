@@ -7,7 +7,7 @@ import math
 
 
 class DirtWorld(BaseWorld):
-    def __init__(self, width=500, height=500, pos=(0, 0)):
+    def __init__(self, width=500, height=500, pos=[0, 0]):
         super().__init__(width, height, pos)
 
     def init_background(self):
@@ -18,5 +18,5 @@ class DirtWorld(BaseWorld):
 
     def populate_world(self):
         for i in range(50):
-            self._entities.append(Skeleton(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
+            self._entities.append(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
                                   random.randint(0, 360), random.randint(100, 150)))

@@ -9,7 +9,7 @@ class BaseWorld:
     _x: int
     _y: int
 
-    def __init__(self, width=500, height=500, pos=(0, 0)):
+    def __init__(self, width=500, height=500, pos=[0, 0]):
         """Initializes a new BaseWorld. Worlds are made up of 2 layers, a
         background surface and an entity surface. Like it sounds, background
         textures go on the background_surface, and entities on the entity_surface.
@@ -29,8 +29,7 @@ class BaseWorld:
         #
         self._width = width
         self._height = height
-        self._x = pos[0]
-        self._y = pos[1]
+        self._pos = pos
         self._entities = []
         self._background_surface = pygame.Surface((self._width, self._height))
         self._entity_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
@@ -75,4 +74,4 @@ class BaseWorld:
 
         f_world.blit(self._entity_surface, (0, 0))
 
-        screen.blit(f_world, (self._x, self._y))
+        screen.blit(f_world, self._pos)

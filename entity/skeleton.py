@@ -16,8 +16,8 @@ class Skeleton(BaseEntity):
         RIGHT = 7
         UP = 10
 
-    def __init__(self, x=0, y=0, angle=0, speed=0):
-        super().__init__(x, y, angle, speed)
+    def __init__(self, pos=(0, 0), angle=0, speed=0):
+        super().__init__(pos, angle, speed)
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 144, 0, 3, 4, 2)
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
@@ -27,21 +27,21 @@ class Skeleton(BaseEntity):
         self._angle += random.randint(-5, 5)
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
-        self._x += dx * micro
-        self._y += dy * micro
+        self._pos[0] += dx * micro
+        self._pos[1] += dy * micro
 
-        if self._x + self._sprite_map[0].get_width() >= world.get_width():
+        if self.get_x() + self._sprite_map[0].get_width() >= world.get_width():
             self.set_angle(180 - self._angle)
-            self._x = world.get_width() - self._sprite_map[0].get_width()
-        elif self._x <= 0:
+            self.set_x(world.get_width() - self._sprite_map[0].get_width())
+        elif self.get_x() <= 0:
             self.set_angle(180 - self._angle)
-            self._x = 0
-        if self._y <= 0:
+            self.set_x(0)
+        if self.get_y() <= 0:
             self.set_angle(360 - self._angle)
-            self._y = 0
-        elif self._y + self._sprite_map[0].get_height() >= world.get_height():
+            self.set_y(0)
+        elif self.get_y() + self._sprite_map[0].get_height() >= world.get_height():
             self.set_angle(360 - self._angle)
-            self._y = world.get_height() - self._sprite_map[0].get_height()
+            self.set_y(world.get_height() - self._sprite_map[0].get_height())
 
         if self._counter > 0.75:
             self._cur_dir_mod = -1
@@ -62,4 +62,4 @@ class Skeleton(BaseEntity):
             self._cur_dir = self.Positons.DOWN
 
     def render(self, surface: pygame.Surface):
-        surface.blit(self._sprite_map[self._cur_dir.value + self._cur_dir_mod], (self._x, self._y))
+        surface.blit(self._sprite_map[self._cur_dir.value + self._cur_dir_mod], self._pos)

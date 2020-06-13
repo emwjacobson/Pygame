@@ -3,31 +3,29 @@ import pygame
 
 
 class BaseEntity:
-    _x: int
-    _y: int
+    _pos: list
     _speed: int
     _angle: int
     _entity_surface: pygame.Surface
     _counter: float
 
-    def __init__(self, x=0, y=0, angle=0, speed=0):
-        self._x = x
-        self._y = y
+    def __init__(self, pos=[0, 0], angle=0, speed=0):
+        self._pos = pos
         self._angle = angle
         self._speed = speed
         self._counter = 0
 
     def get_x(self):
-        return self._x
-
-    def set_x(self, x):
-        self._x = x
-
-    def set_y(self, y):
-        self._y = y
+        return self._pos[0]
 
     def get_y(self):
-        return self._y
+        return self._pos[1]
+
+    def set_x(self, x):
+        self._pos[0] = x
+
+    def set_y(self, y):
+        self._pos[1] = y
 
     def get_width(self):
         return self._entity_surface.get_width()
@@ -54,10 +52,7 @@ class BaseEntity:
         return self._angle
 
     def handle_events(self, events, world):
-        for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == pygame.K_p:
-                    e = world.get_entities().clear()
+        pass
 
     def update(self, micro, world):
         self._counter = (self._counter + micro) % 1
