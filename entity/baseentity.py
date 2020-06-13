@@ -5,7 +5,7 @@ class BaseEntity:
     _pos: list
     _speed: int
     _angle: int
-    _entity_surface: pygame.Surface
+    _sprite_map: pygame.Surface
     _counter: float
 
     def __init__(self, pos=[0, 0], angle=0, speed=0):
@@ -20,6 +20,7 @@ class BaseEntity:
         self._angle = angle
         self._speed = speed
         self._counter = 0
+        self._sprite_map = None
 
     def get_x(self):
         """Gets the x position of the entity, relative to the world
@@ -59,7 +60,7 @@ class BaseEntity:
         Returns:
             int: Width of the entity in pixels
         """
-        return self._entity_surface.get_width()
+        return self._sprite_map[0].get_width()
 
     def get_height(self):
         """Gets the height of the entity in pixels
@@ -67,7 +68,7 @@ class BaseEntity:
         Returns:
             int: Height of the entity in pixels
         """
-        return self._entity_surface.get_height()
+        return self._sprite_map[0].get_height()
 
     def get_pos(self):
         """Gets the x, y position of the entity, relative to the world
@@ -125,34 +126,10 @@ class BaseEntity:
         """
         self._counter = (self._counter + micro) % 1
 
-    def render(self, surface):
+    def render(self, surface: pygame.Surface):
         """Renders the entity to a given surface
 
         Args:
             surface (pygame.Surface): The surface to render the entity to
         """
         pass
-
-# ad	speed = 0		angle = _
-# ws	speed = 0		angle = _
-# wasd  speed = 0		angle = _
-
-# w	    speed = 100		angle = 0
-# wad	speed = 100		angle = 0
-
-# wd	speed = 100		angle = 45
-
-# d	    speed = 100		angle = 90
-# wsd	speed = 100		angle = 90
-
-# sd	speed = 100		angle = 135
-
-# asd	speed = 100		angle = 180
-# s 	speed = 100		angle = 180
-
-# as	speed = 100		angle = 225
-
-# a	    speed = 100		angle = 270
-# was	speed = 100		angle = 270
-
-# wa	speed = 100		angle = 315

@@ -1,7 +1,7 @@
 import pygame
 import settings
 from .baseworld import BaseWorld
-from entity.skeleton import BaseEntity, Skeleton
+from entity import BaseEntity, Player, Skeleton
 import random
 import math
 
@@ -17,6 +17,10 @@ class DirtWorld(BaseWorld):
                 self._background_surface.blit(background_texture, (x, y))
 
     def populate_world(self):
+        # Skeleton Sprites
         for i in range(50):
             self._entities.append(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
                                   random.randint(0, 360), random.randint(100, 150)))
+
+        # Player
+        self._entities.append(Player())

@@ -80,7 +80,7 @@ class BaseWorld:
         for e in self._entities:
             e.update(micro, self)
 
-    def render(self, screen):
+    def render(self, screen: pygame.Surface):
         """Renders the world. Starts with the background_surface then the entity_surface over top.
 
         Args:
