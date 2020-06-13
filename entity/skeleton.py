@@ -21,7 +21,7 @@ class Skeleton(BaseEntity):
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 144, 0, 3, 4, 2)
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
-        self._random_wait = random.randint(10, 20)
+        self._random_wait = random.randint(5, 20)
 
     def update(self, micro, world: BaseWorld):
         super().update(micro, world)

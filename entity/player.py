@@ -16,7 +16,7 @@ class Player(BaseEntity):
     def __init__(self, pos=[0, 0]):
         super().__init__(pos, 90, 0, 150)
 
-        self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 48, 0, 3, 4, 5)
+        self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 48, 0, 3, 4, 3)
 
         self._move_right = False
         self._move_left = False
@@ -38,6 +38,8 @@ class Player(BaseEntity):
                     self._move_up = True
                 elif e.key == settings.MOVE_DOWN:
                     self._move_down = True
+                elif e.key == pygame.K_SPACE:
+                    self._max_speed += 50
             elif e.type == pygame.KEYUP:
                 if e.key == settings.MOVE_LEFT:
                     self._move_left = False
@@ -47,6 +49,8 @@ class Player(BaseEntity):
                     self._move_up = False
                 elif e.key == settings.MOVE_DOWN:
                     self._move_down = False
+                elif e.key == pygame.K_SPACE:
+                    self._max_speed -= 50
 
     def update(self, micro, world):
         super().update(micro, world)
@@ -84,21 +88,21 @@ class Player(BaseEntity):
         else:
             self._speed = self._max_speed
             if (not w and not a and not s and d) or (w and not a and s and d):
-                self._angle = 0
+                self.set_angle(0)
             elif (not w and not a and s and d):
-                self._angle = 45
+                self.set_angle(45)
             elif (not w and a and s and d) or (not w and not a and s and not d):
-                self._angle = 90
+                self.set_angle(90)
             elif (not w and a and s and not d):
-                self._angle = 135
+                self.set_angle(135)
             elif (not w and a and not s and not d) or (w and a and s and not d):
-                self._angle = 180
+                self.set_angle(180)
             elif (w and a and not s and not d):
-                self._angle = 225
+                self.set_angle(225)
             elif (w and not a and not s and not d) or (w and a and not s and d):
-                self._angle = 270
+                self.set_angle(270)
             elif (w and not a and not s and d):
-                self._angle = 315
+                self.set_angle(315)
 
         c = self._counter % 1
         if self._speed == 0:
@@ -125,6 +129,16 @@ class Player(BaseEntity):
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._pos[0] += dx * micro
         self._pos[1] += dy * micro
+
+        # Check boundries on the world, if they hit one then bounce off
+        if self.get_x() + self._sprite_map[0].get_width() >= world.get_width():
+            self.set_x(world.get_width() - self.get_width())
+        elif self.get_x() <= 0:
+            self.set_x(0)
+        if self.get_y() <= 0:
+            self.set_y(0)
+        elif self.get_y() + self._sprite_map[0].get_height() >= world.get_height():
+            self.set_y(world.get_height() - self.get_height())
 
     def render(self, surface: pygame.Surface):
         super().render(surface)

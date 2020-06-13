@@ -17,7 +17,7 @@ class BaseEntity:
             speed (int, optional): Speed that the entity is moving. Defaults to 0.
         """
         self._pos = pos
-        self._angle = angle
+        self.set_angle(angle)
         self._speed = speed
         self._counter = 0
         self._sprite_map = None
