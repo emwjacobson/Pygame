@@ -22,9 +22,6 @@ class Skeleton(BaseEntity):
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
 
-    def handle_events(self, events):
-        pass
-
     def update(self, micro, world: BaseWorld):
         super().update(micro, world)
         self._angle += random.randint(-5, 5)

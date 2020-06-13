@@ -6,7 +6,6 @@ class SpriteLoader:
     def __init__(self):
         pass
 
-    # This is a test
     def load_sheet(path, sprite_width, sprite_height, offset_x, offset_y, columns, rows, scale=1):
         """
         Loads sprites from a sprite sheet.

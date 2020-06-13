@@ -1,4 +1,5 @@
 import pygame
+# from worlds.baseworld import BaseWorld
 
 
 class BaseEntity:
@@ -52,8 +53,11 @@ class BaseEntity:
     def get_angle(self):
         return self._angle
 
-    def handle_events(self, events):
-        pass
+    def handle_events(self, events, world):
+        for e in events:
+            if e.type == pygame.KEYDOWN:
+                if e.key == pygame.K_p:
+                    e = world.get_entities().clear()
 
     def update(self, micro, world):
         self._counter = (self._counter + micro) % 1
