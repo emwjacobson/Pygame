@@ -30,9 +30,9 @@ class DirtWorld(BaseWorld):
                 self.map_surface.blit(background_texture, (x, y))
 
     def populate_map(self):
-        for i in range(30):
+        for i in range(50):
             self._entities.append(Mob(random.randint(50, self._width - 50), random.randint(80, self._height - 80),
-                                      random.randint(0, 360), random.randint(100, 300)))
+                                      random.randint(0, 360), random.randint(100, 150)))
 
     def handle_events(self, events):
         for e in events:
@@ -57,18 +57,18 @@ class DirtWorld(BaseWorld):
                 # Zoom
                 # Zooming is a bit funky, as it will zoom based on the upper
                 # left area of the surface, so need to adjust the x and y
-                # elif e.key == pygame.K_LEFTBRACKET and self._zoom < 2:
-                #     self._zoom += 0.1
-                #     new_x = self._width * (self._zoom - 1) * 0.5
-                #     self._x -= new_x
-                #     new_y = self._height * (self._zoom - 1) * 0.5
-                #     self._y -= new_y
-                # elif e.key == pygame.K_RIGHTBRACKET and self._zoom > 0.5:
-                #     self._zoom -= 0.1
-                #     new_x = self._width * (self._zoom - 1) * 0.5
-                #     self._x -= new_x
-                #     new_y = self._height * (self._zoom - 1) * 0.5
-                #     self._y -= new_y
+                elif e.key == pygame.K_LEFTBRACKET and self._zoom < 2:
+                    self._zoom += 0.1
+                    # new_x = self._width * (self._zoom - 1) * 0.5
+                    # self._x -= new_x
+                    # new_y = self._height * (self._zoom - 1) * 0.5
+                    # self._y -= new_y
+                elif e.key == pygame.K_RIGHTBRACKET and self._zoom > 0.5:
+                    self._zoom -= 0.1
+                    # new_x = self._width * (self._zoom - 1) * 0.5
+                    # self._x -= new_x
+                    # new_y = self._height * (self._zoom - 1) * 0.5
+                    # self._y -= new_y
             elif e.type == pygame.KEYUP:
                 # Handle Pan controls
                 if e.key == pygame.K_a:
