@@ -16,12 +16,13 @@ class Skeleton(BaseEntity):
         RIGHT = 7
         UP = 10
 
-    def __init__(self, pos=(0, 0), angle=0, speed=0):
-        super().__init__(pos, angle, speed)
+    def __init__(self, pos=(0, 0), angle=0, speed=0, max_speed=100):
+        super().__init__(pos, angle, speed, max_speed)
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 144, 0, 3, 4, 2)
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
-        self._random_wait = random.randint(5, 20)
+        self._random_wait = (random.random() * 15) + 5          # [5, 15)
+        self._random_wait_sec = (random.random() * 2) + 0.25    # [0.25, 2.25)
 
     def update(self, micro, world: BaseWorld):
         super().update(micro, world)
@@ -61,7 +62,7 @@ class Skeleton(BaseEntity):
             self._cur_dir_mod = 0
 
         # Make this sprite stop moving for 2 second every _random_wait seconds
-        if self._counter > self._random_wait and self._counter % self._random_wait <= 2:
+        if self._counter > self._random_wait and self._counter % self._random_wait <= self._random_wait_sec:
             self._speed = 0
         else:
             self._speed = self._max_speed

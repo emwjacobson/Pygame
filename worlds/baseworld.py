@@ -6,8 +6,6 @@ from typing import List
 class BaseWorld:
     _width: int
     _height: int
-    _x: int
-    _y: int
 
     def __init__(self, width=500, height=500, pos=[0, 0]):
         """Initializes a new BaseWorld. Worlds are made up of 2 layers, a
@@ -23,6 +21,7 @@ class BaseWorld:
         self._height = height
         self._pos = pos
         self._entities = []
+        self._player = None
         self._background_surface = pygame.Surface((self._width, self._height))
         self._entity_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
         self.init_background()
@@ -53,6 +52,9 @@ class BaseWorld:
             int: Height, in pixels, of the world
         """
         return self._height
+
+    def get_pos_screen(self, entity):
+        return [self._pos[i] + entity.get_pos()[i] for i in range(2)]
 
     def get_entities(self):
         """Gets the entities in the current world

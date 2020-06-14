@@ -10,7 +10,7 @@ screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT), flags)
 
 clock = pygame.time.Clock()
 
-cur_map = dirtworld.DirtWorld(settings.WIDTH, settings.HEIGHT)
+cur_map = dirtworld.DirtWorld(settings.WIDTH * 2, settings.HEIGHT * 2, [-settings.WIDTH // 2, -settings.HEIGHT // 2])
 
 while True:
     # This is here to make sure that movement is the same regardless of FPS

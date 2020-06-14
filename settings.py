@@ -15,7 +15,3 @@ MOVE_UP = pygame.K_w
 MOVE_LEFT = pygame.K_a
 MOVE_RIGHT = pygame.K_d
 MOVE_DOWN = pygame.K_s
-
-
-def init():
-    pass

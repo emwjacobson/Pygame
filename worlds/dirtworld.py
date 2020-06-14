@@ -20,7 +20,21 @@ class DirtWorld(BaseWorld):
         # Skeleton Sprites
         for i in range(50):
             self._entities.append(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
-                                  random.randint(0, 360), random.randint(50, 50)))
+                                  random.randint(0, 360), 0, random.randint(100, 150)))
 
         # Player
-        self._entities.append(Player())
+        self._player = Player([settings.WIDTH, settings.HEIGHT])
+        self._entities.append(self._player)
+
+    def update(self, micro):
+        super().update(micro)
+        p_pos = self.get_pos_screen(self._player)
+        if p_pos[0] < 250:
+            self._pos[0] += 1
+        elif p_pos[0] + self._player.get_width() > settings.WIDTH - 250:
+            self._pos[0] -= 1
+
+        if p_pos[1] < 150:
+            self._pos[1] += 1
+        elif p_pos[1] + self._player.get_height() > settings.HEIGHT - 150:
+            self._pos[1] -= 1

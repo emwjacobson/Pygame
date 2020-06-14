@@ -77,7 +77,7 @@ class BaseEntity:
         Returns:
             list[int]: The x, y position of the entity
         """
-        return [self._x, self._y]
+        return self._pos
 
     def set_speed(self, speed):
         """Gets the speed of the entity
@@ -93,13 +93,7 @@ class BaseEntity:
         Args:
             angle (int): The angle in degrees
         """
-        # TODO: Make this use modulo
-        if angle < 0:
-            self.set_angle(360 + angle)
-        elif angle >= 360:
-            self.set_angle(angle - 360)
-        else:
-            self._angle = angle
+        self._angle = angle % 360
 
     def get_angle(self):
         """Get the angle in degrees of the entity
