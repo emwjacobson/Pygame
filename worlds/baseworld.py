@@ -54,6 +54,14 @@ class BaseWorld:
         return self._height
 
     def get_pos_screen(self, entity):
+        """Gets the position of a given entity relative to the upper left corner of the screen
+
+        Args:
+            entity (BaseEntity): The entity to get position of
+
+        Returns:
+            list[int]: The [x, y] position of the sprite relative to upper left of the screen
+        """
         return [self._pos[i] + entity.get_pos()[i] for i in range(2)]
 
     def get_entities(self):

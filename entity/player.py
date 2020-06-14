@@ -55,32 +55,8 @@ class Player(BaseEntity):
     def update(self, micro, world):
         super().update(micro, world)
 
-        # ad	speed = 0		angle = _
-        # ws	speed = 0		angle = _
-        # wasd  speed = 0		angle = _
-        #       speed = 0       angle = _
-
-        # d	    speed = 100		angle = 0
-        # wsd	speed = 100		angle = 0
-
-        # sd	speed = 100		angle = 45
-
-        # asd	speed = 100		angle = 90
-        # s 	speed = 100		angle = 90
-
-        # as	speed = 100		angle = 135
-
-        # a	    speed = 100		angle = 180
-        # was	speed = 100		angle = 180
-
-        # wa	speed = 100		angle = 225
-
-        # w	    speed = 100		angle = 270
-        # wad	speed = 100		angle = 270
-
-        # wd	speed = 100		angle = 315
-
         # TODO: Find a better way to do this...
+        # Get which keys are pressed to determine direction
         w, a, s, d = self._move_up, self._move_left, self._move_down, self._move_right
 
         if (not w and a and not s and d) or (w and not a and s and not d) or (w and a and s and d) or (not w and not a and not s and not d):
@@ -104,6 +80,7 @@ class Player(BaseEntity):
             elif (w and not a and not s and d):
                 self.set_angle(315)
 
+        # Get the offset of the current direction
         c = self._counter % 1
         if self._speed == 0:
             self._cur_dir_mod = 0
@@ -116,6 +93,7 @@ class Player(BaseEntity):
         else:
             self._cur_dir_mod = 0
 
+        # Determine direction of the sprite
         if self._angle > 315 or self._angle <= 45:
             self._cur_dir = self.Positons.RIGHT
         elif self._angle > 225 and self._angle <= 315:
@@ -125,6 +103,7 @@ class Player(BaseEntity):
         else:
             self._cur_dir = self.Positons.DOWN
 
+        # Update position based on sprite angle and speed
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._pos[0] += dx * micro
@@ -143,4 +122,5 @@ class Player(BaseEntity):
     def render(self, surface: pygame.Surface):
         super().render(surface)
 
+        # Draw the player with current direction and direction modifier
         surface.blit(self._sprite_map[self._cur_dir.value + self._cur_dir_mod], self._pos)

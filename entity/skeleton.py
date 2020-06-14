@@ -78,4 +78,5 @@ class Skeleton(BaseEntity):
             self._cur_dir = self.Positons.DOWN
 
     def render(self, surface: pygame.Surface):
+        super().render(surface)
         surface.blit(self._sprite_map[self._cur_dir.value + self._cur_dir_mod], self._pos)
