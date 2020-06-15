@@ -27,8 +27,8 @@ class Skeleton(BaseEntity):
     def update(self, micro, world: BaseWorld):
         super().update(micro, world)
 
-        # Apply a random angle to make then walk in more than straight lines
-        self._angle += random.randint(-5, 5)
+        # Apply a random angle to make then walk in more than straight lines\
+        self.set_angle(self._angle + random.randint(-5, 5))
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
         self._pos[0] += dx * micro
@@ -69,6 +69,11 @@ class Skeleton(BaseEntity):
 
         # Set the current direction based on current angle
         if self._angle > 315 or self._angle <= 45:
+            # Error checking:
+            if self._angle >= 360:
+                print("{} Too big...".format(self._angle))
+            elif self._angle < 0:
+                print("{} Too small...".format(self._angle))
             self._cur_dir = self.Positons.RIGHT
         elif self._angle > 225 and self._angle <= 315:
             self._cur_dir = self.Positons.UP

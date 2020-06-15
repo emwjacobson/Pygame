@@ -22,7 +22,8 @@ class BaseWorld:
         self._pos = pos
         self._entities = []
         self._player = None
-        self._background_surface = pygame.Surface((self._width, self._height))
+        self._counter = 0
+        self._background_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
         self._entity_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
         self.init_background()
         self.populate_world()
@@ -87,6 +88,7 @@ class BaseWorld:
         Args:
             micro (float): Number of seconds that it took to render the frame. Used to make any FPS run at the same speed.
         """
+        self._counter += micro
         for e in self._entities:
             e.update(micro, self)
 
@@ -96,7 +98,7 @@ class BaseWorld:
         Args:
             screen (pygame.Surface): The surface for the world to be rendered to
         """
-        f_world = pygame.Surface((self._width, self._height))
+        f_world = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
 
         # Render map background
         f_world.blit(self._background_surface, (0, 0))
