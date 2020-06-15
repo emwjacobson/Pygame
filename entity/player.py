@@ -39,7 +39,7 @@ class Player(BaseEntity):
                 elif e.key == settings.MOVE_DOWN:
                     self._move_down = True
                 elif e.key == pygame.K_SPACE:
-                    self._max_speed += 50
+                    self._max_speed += 100
             elif e.type == pygame.KEYUP:
                 if e.key == settings.MOVE_LEFT:
                     self._move_left = False
@@ -50,7 +50,7 @@ class Player(BaseEntity):
                 elif e.key == settings.MOVE_DOWN:
                     self._move_down = False
                 elif e.key == pygame.K_SPACE:
-                    self._max_speed -= 50
+                    self._max_speed -= 100
 
     def update(self, micro, world):
         super().update(micro, world)

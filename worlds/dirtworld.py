@@ -36,7 +36,7 @@ class DirtWorld(BaseWorld):
 
     def populate_world(self):
         # Skeleton Sprites
-        for i in range(20):
+        for i in range(100):
             self._entities.append(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
                                   random.randint(0, 360), 0, random.randint(50, 80)))
 

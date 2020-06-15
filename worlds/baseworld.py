@@ -106,6 +106,13 @@ class BaseWorld:
         # Render entities
         self._entity_surface.fill((0, 0, 0, 0))
         for e in self._entities:
+            # Don't render sprites not on the screen, hopefully saving time
+            s_pos = self.get_pos_screen(e)
+            if s_pos[0] < -e.get_width() or s_pos[1] < -e.get_height():
+                continue
+            elif s_pos[0] > settings.WIDTH or s_pos[1] > settings.HEIGHT:
+                continue
+
             e.render(self._entity_surface)
 
         f_world.blit(self._entity_surface, (0, 0))

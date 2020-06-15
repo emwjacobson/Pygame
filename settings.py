@@ -1,10 +1,10 @@
 import pygame
 
 # Constants
-WIDTH = 1920 // 2
-HEIGHT = 1080 // 2
+WIDTH = int(1920 // 2)
+HEIGHT = int(1080 // 2)
 FULLSCREEN = False
-FPS = 144
+FPS = -1
 
 # Directories
 ASSET_DIR = "assets/"
