@@ -1,3 +1,5 @@
+[![Run on Repl.it](https://repl.it/badge/github/emwjacobson/Pygame)](https://repl.it/github/emwjacobson/Pygame)
+
 # This is my game
 
 ## Installation
