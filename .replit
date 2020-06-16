@@ -1,2 +1,3 @@
 language = "python3"
 run = "pip install -r requirements.txt && bash -c polygott-x11-vnc q && DISPLAY=:0 run-project"
+onBoot="sleep 5s && pkill pyls"
