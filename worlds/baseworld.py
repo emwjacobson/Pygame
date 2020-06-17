@@ -23,10 +23,11 @@ class BaseWorld:
         self._entities = []
         self._player = None
         self._counter = 0
-        self._background_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
-        self._entity_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
+        self._background_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA | pygame.HWSURFACE | pygame.ASYNCBLIT | pygame.DOUBLEBUF)
+        self._entity_surface = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA | pygame.HWSURFACE | pygame.ASYNCBLIT | pygame.DOUBLEBUF)
         self.init_background()
         self.populate_world()
+        print(self._background_surface.get_flags())
 
     def init_background(self):
         """Overload this function in a subclass to populate the background_surface.
@@ -98,7 +99,7 @@ class BaseWorld:
         Args:
             screen (pygame.Surface): The surface for the world to be rendered to
         """
-        f_world = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA)
+        f_world = pygame.Surface((self._width, self._height), flags=pygame.SRCALPHA | pygame.HWSURFACE | pygame.ASYNCBLIT | pygame.DOUBLEBUF)
 
         # Render map background
         f_world.blit(self._background_surface, (0, 0))

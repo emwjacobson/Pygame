@@ -5,7 +5,7 @@ from worlds import dirtworld
 
 # Initialization
 pygame.init()
-flags = (pygame.FULLSCREEN | pygame.SCALED) if settings.FULLSCREEN else 0
+flags = (pygame.FULLSCREEN | pygame.SCALED | pygame.HWSURFACE | pygame.ASYNCBLIT | pygame.DOUBLEBUF) if settings.FULLSCREEN else (pygame.HWSURFACE | pygame.ASYNCBLIT | pygame.DOUBLEBUF)
 screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT), flags)
 
 clock = pygame.time.Clock()
