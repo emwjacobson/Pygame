@@ -36,17 +36,24 @@ class DirtWorld(BaseWorld):
 
     def populate_world(self):
         # Skeleton Sprites
-        for i in range(100):
-            self._entities.add(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
-                               random.randint(0, 360), 0, random.randint(50, 80)))
+        # for i in range(100):
+        #     self._entities.add(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
+        #                        random.randint(0, 360), 0, random.randint(50, 80)))
 
         # Player
         self._player = Player([settings.WIDTH, settings.HEIGHT])
         self._entities.add(self._player)
 
+    def handle_events(self, events):
+        super().handle_events(events)
+        for e in events:
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                self._entities.add(Skeleton(self.to_world_pos(e.pos), random.randint(0, 359), 0, random.randint(50, 80)))
+
     def update(self, micro):
         super().update(micro)
-        p_pos = self.get_pos_screen(self._player)
+
+        p_pos = self.get_screen_pos(self._player)
         if p_pos[0] < 250:
             self._pos[0] = self._pos[0] + (250 - p_pos[0])
         elif p_pos[0] + self._player.get_width() > settings.WIDTH - 250:

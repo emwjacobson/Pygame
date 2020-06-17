@@ -105,7 +105,6 @@ class Player(BaseEntity):
         # Update position based on sprite angle and speed
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
-        # TODO: Pygame rect's work in ints. To make micro work it must work with floats...
         self.add_x(dx * micro)
         self.add_y(dy * micro)
 
