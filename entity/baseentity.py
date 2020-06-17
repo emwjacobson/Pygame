@@ -1,14 +1,18 @@
 import pygame
 
 
-class BaseEntity:
-    _pos: list
+class BaseEntity(pygame.sprite.DirtySprite):
+    image: pygame.Surface
+    rect: pygame.Rect
     _speed: int
     _angle: int
     _sprite_map: pygame.Surface
     _counter: float
+    rect: pygame.Rect
+    image: pygame.Surface
 
-    def __init__(self, pos=[0, 0], angle=0, speed=0, max_speed=100):
+    def __init__(self, rect, angle=0, speed=0, max_speed=100):
+        super().__init__()
         """Initializes a new BaseEntity.
 
         Args:
@@ -16,12 +20,12 @@ class BaseEntity:
             angle (int, optional): Angle that the entity is facing. 0 is to the right, and rotates clockwise. Defaults to 0.
             speed (int, optional): Speed that the entity is moving. Defaults to 0.
         """
-        self._pos = pos
+        self.rect = rect
         self.set_angle(angle)
         self._speed = speed
         self._counter = 0
-        self._sprite_map = None
         self._max_speed = max_speed
+        self.dirty = 2
 
     def get_x(self):
         """Gets the x position of the entity, relative to the world
@@ -29,7 +33,7 @@ class BaseEntity:
         Returns:
             int: The x position of the entity
         """
-        return self._pos[0]
+        return self.rect.x
 
     def get_y(self):
         """Gets the y position of the entity, relative to the world
@@ -37,7 +41,7 @@ class BaseEntity:
         Returns:
             int: The y position of the entity
         """
-        return self._pos[1]
+        return self.rect.y
 
     def set_x(self, x):
         """Sets the x position of the entity, relative to the world
@@ -45,7 +49,15 @@ class BaseEntity:
         Args:
             x (int): The x position of the entity
         """
-        self._pos[0] = x
+        self.rect.x = x
+
+    def add_x(self, x):
+        """Adds `x` to the current x position
+
+        Args:
+            x (int): The amount to add to current x
+        """
+        self.rect.x += x
 
     def set_y(self, y):
         """Sets the y position of the entity, relative to the world
@@ -53,7 +65,15 @@ class BaseEntity:
         Args:
             y (int): The y position of the entity
         """
-        self._pos[1] = y
+        self.rect.y = y
+
+    def add_y(self, y):
+        """Adds `y` to the current y position
+
+        Args:
+            y (int): The amount to add to current y
+        """
+        self.rect.y += y
 
     def get_width(self):
         """Gets the width of the entity in pixels
@@ -61,7 +81,7 @@ class BaseEntity:
         Returns:
             int: Width of the entity in pixels
         """
-        return self._sprite_map[0].get_width()
+        return self.rect.width
 
     def get_height(self):
         """Gets the height of the entity in pixels
@@ -69,7 +89,7 @@ class BaseEntity:
         Returns:
             int: Height of the entity in pixels
         """
-        return self._sprite_map[0].get_height()
+        return self.rect.height
 
     def get_pos(self):
         """Gets the x, y position of the entity, relative to the world
@@ -77,7 +97,7 @@ class BaseEntity:
         Returns:
             list[int]: The x, y position of the entity
         """
-        return self._pos
+        return self.rect.topleft
 
     def set_speed(self, speed):
         """Gets the speed of the entity
@@ -120,11 +140,3 @@ class BaseEntity:
             world (BaseWorld): The world that the entity belongs to
         """
         self._counter += micro
-
-    def render(self, surface: pygame.Surface):
-        """Renders the entity to a given surface
-
-        Args:
-            surface (pygame.Surface): The surface to render the entity to
-        """
-        pass

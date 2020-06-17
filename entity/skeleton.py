@@ -1,7 +1,6 @@
 import pygame
 import settings
 from .baseentity import BaseEntity
-from worlds.baseworld import BaseWorld
 import math
 import time
 import random
@@ -16,37 +15,37 @@ class Skeleton(BaseEntity):
         RIGHT = 7
         UP = 10
 
-    def __init__(self, pos=(0, 0), angle=0, speed=0, max_speed=100):
-        super().__init__(pos, angle, speed, max_speed)
+    def __init__(self, pos, angle=0, speed=0, max_speed=100):
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 144, 0, 3, 4, 2)
+        super().__init__(pygame.Rect(pos, (self._sprite_map[0].get_width(), self._sprite_map[0].get_height())), angle, speed, max_speed)
         self._cur_dir = self.Positons.DOWN
         self._cur_dir_mod = 0
         self._random_wait = (random.random() * 15) + 5          # [5, 15)
         self._random_wait_sec = (random.random() * 2) + 0.25    # [0.25, 2.25)
 
-    def update(self, micro, world: BaseWorld):
+    def update(self, micro, world):
         super().update(micro, world)
 
         # Apply a random angle to make then walk in more than straight lines\
         self.set_angle(self._angle + random.randint(-5, 5))
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
-        self._pos[0] += dx * micro
-        self._pos[1] += dy * micro
+        self.add_x(dx * micro)
+        self.add_y(dy * micro)
 
         # Check boundries on the world, if they hit one then bounce off
-        if self.get_x() + self._sprite_map[0].get_width() >= world.get_width():
+        if self.get_x() + self.get_width() >= world.get_width():
             self.set_angle(180 - self._angle)
-            self.set_x(world.get_width() - self._sprite_map[0].get_width())
+            self.set_x(world.get_width() - self.get_width())
         elif self.get_x() <= 0:
             self.set_angle(180 - self._angle)
             self.set_x(0)
         if self.get_y() <= 0:
             self.set_angle(360 - self._angle)
             self.set_y(0)
-        elif self.get_y() + self._sprite_map[0].get_height() >= world.get_height():
+        elif self.get_y() + self.get_height() >= world.get_height():
             self.set_angle(360 - self._angle)
-            self.set_y(world.get_height() - self._sprite_map[0].get_height())
+            self.set_y(world.get_height() - self.get_height())
 
         # Control the animation based on time
         c = self._counter % 1
@@ -82,6 +81,4 @@ class Skeleton(BaseEntity):
         else:
             self._cur_dir = self.Positons.DOWN
 
-    def render(self, surface: pygame.Surface):
-        super().render(surface)
-        surface.blit(self._sprite_map[self._cur_dir.value + self._cur_dir_mod], self._pos)
+        self.image = self._sprite_map[self._cur_dir.value + self._cur_dir_mod]

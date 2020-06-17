@@ -13,10 +13,9 @@ class Player(BaseEntity):
         RIGHT = 7
         UP = 10
 
-    def __init__(self, pos=[0, 0]):
-        super().__init__(pos, 90, 0, 150)
-
+    def __init__(self, pos):
         self._sprite_map = SpriteLoader.load_sheet(settings.TEXTURE_DIR + "characters.png", 16, 16, 48, 0, 3, 4, 3)
+        super().__init__(pygame.Rect(pos, (self._sprite_map[0].get_width(), self._sprite_map[0].get_height())), 90, 0, 150)
 
         self._move_right = False
         self._move_left = False
@@ -106,21 +105,18 @@ class Player(BaseEntity):
         # Update position based on sprite angle and speed
         dx = math.cos(math.radians(self._angle)) * self._speed
         dy = math.sin(math.radians(self._angle)) * self._speed
-        self._pos[0] += dx * micro
-        self._pos[1] += dy * micro
+        # TODO: Pygame rect's work in ints. To make micro work it must work with floats...
+        self.add_x(dx * micro)
+        self.add_y(dy * micro)
 
         # Check boundries on the world, if they hit one then bounce off
-        if self.get_x() + self._sprite_map[0].get_width() >= world.get_width():
+        if self.get_x() + self.get_width() >= world.get_width():
             self.set_x(world.get_width() - self.get_width())
         elif self.get_x() <= 0:
             self.set_x(0)
         if self.get_y() <= 0:
             self.set_y(0)
-        elif self.get_y() + self._sprite_map[0].get_height() >= world.get_height():
+        elif self.get_y() + self.get_height() >= world.get_height():
             self.set_y(world.get_height() - self.get_height())
 
-    def render(self, surface: pygame.Surface):
-        super().render(surface)
-
-        # Draw the player with current direction and direction modifier
-        surface.blit(self._sprite_map[self._cur_dir.value + self._cur_dir_mod], self._pos)
+        self.image = self._sprite_map[self._cur_dir.value + self._cur_dir_mod]

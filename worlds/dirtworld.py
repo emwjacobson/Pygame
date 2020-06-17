@@ -36,13 +36,13 @@ class DirtWorld(BaseWorld):
 
     def populate_world(self):
         # Skeleton Sprites
-        for i in range(1000):
-            self._entities.append(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
-                                  random.randint(0, 360), 0, random.randint(50, 80)))
+        for i in range(100):
+            self._entities.add(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
+                               random.randint(0, 360), 0, random.randint(50, 80)))
 
         # Player
         self._player = Player([settings.WIDTH, settings.HEIGHT])
-        self._entities.append(self._player)
+        self._entities.add(self._player)
 
     def update(self, micro):
         super().update(micro)
