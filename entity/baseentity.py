@@ -8,6 +8,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
     _angle: int
     _sprite_map: pygame.Surface
     _counter: float
+    _xy: [float]
     rect: pygame.Rect
     image: pygame.Surface
 
@@ -21,6 +22,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
             speed (int, optional): Speed that the entity is moving. Defaults to 0.
         """
         self.rect = rect
+        self._xy = list(self.rect.topleft)
         self.set_angle(angle)
         self._speed = speed
         self._counter = 0
@@ -33,7 +35,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Returns:
             int: The x position of the entity
         """
-        return self.rect.x
+        return self._xy[0]
 
     def get_y(self):
         """Gets the y position of the entity, relative to the world
@@ -41,7 +43,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Returns:
             int: The y position of the entity
         """
-        return self.rect.y
+        return self._xy[1]
 
     def set_x(self, x):
         """Sets the x position of the entity, relative to the world
@@ -49,6 +51,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Args:
             x (int): The x position of the entity
         """
+        self._xy[0] = x
         self.rect.x = x
 
     def add_x(self, x):
@@ -57,7 +60,8 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Args:
             x (int): The amount to add to current x
         """
-        self.rect.x += x
+        self._xy[0] += x
+        self.rect.x = self._xy[0]
 
     def set_y(self, y):
         """Sets the y position of the entity, relative to the world
@@ -65,6 +69,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Args:
             y (int): The y position of the entity
         """
+        self._xy[1] = y
         self.rect.y = y
 
     def add_y(self, y):
@@ -73,7 +78,8 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Args:
             y (int): The amount to add to current y
         """
-        self.rect.y += y
+        self._xy[1] += y
+        self.rect.y = self._xy[1]
 
     def get_width(self):
         """Gets the width of the entity in pixels
@@ -97,7 +103,7 @@ class BaseEntity(pygame.sprite.DirtySprite):
         Returns:
             list[int]: The x, y position of the entity
         """
-        return self.rect.topleft
+        return self._xy
 
     def set_speed(self, speed):
         """Gets the speed of the entity

@@ -107,4 +107,9 @@ class BaseWorld:
         self._f_world.blit(self._background_surface, (0, 0))
         self._entities.draw(self._f_world)
 
+        # This implementation only draws the portion of the screen thats is visible to `screen`.
+        # I didn't notice and improved performance, so I'll use the original way or rendering.
+        # screen.blit(self._f_world, (0, 0), area=pygame.Rect([-i for i in self._pos], (settings.WIDTH, settings.HEIGHT)))
+
+        # This implementation draws the entire world to the screen, with most of it not being visible.
         screen.blit(self._f_world, self._pos)
