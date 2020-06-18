@@ -1,4 +1,4 @@
-from .baseentity import BaseEntity
+from . import BaseEntity, Player, Skeleton
 import pygame
 from utils.spriteloader import SpriteLoader
 import settings
@@ -12,5 +12,12 @@ class Rock(BaseEntity):
 
     def update(self, micro, world):
         super().update(micro, world)
-        if self._counter > 5:
+        if self._counter > 2:
             self.kill()
+            return
+
+        col = pygame.sprite.spritecollide(self, world.get_entities(), False, pygame.sprite.collide_rect)
+        for s in col:
+            if isinstance(s, Skeleton):
+                s.kill()
+                self.kill()
