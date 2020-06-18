@@ -1,4 +1,5 @@
 import pygame
+import math
 
 
 class BaseEntity(pygame.sprite.DirtySprite):
@@ -146,3 +147,9 @@ class BaseEntity(pygame.sprite.DirtySprite):
             world (BaseWorld): The world that the entity belongs to
         """
         self._counter += micro
+
+        # Update position based on sprite angle and speed
+        dx = math.cos(math.radians(self._angle)) * self._speed
+        dy = math.sin(math.radians(self._angle)) * self._speed
+        self.add_x(dx * micro)
+        self.add_y(dy * micro)

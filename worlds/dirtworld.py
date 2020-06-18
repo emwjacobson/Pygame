@@ -2,7 +2,7 @@ import pygame
 import settings
 from .baseworld import BaseWorld
 from utils.spriteloader import SpriteLoader
-from entity import BaseEntity, Player, Skeleton
+from entity import BaseEntity, Player, Skeleton, Rock
 import random
 import math
 
@@ -36,9 +36,9 @@ class DirtWorld(BaseWorld):
 
     def populate_world(self):
         # Skeleton Sprites
-        # for i in range(100):
-        #     self._entities.add(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
-        #                        random.randint(0, 360), 0, random.randint(50, 80)))
+        for i in range(50):
+            self._entities.add(Skeleton([random.randint(50, self._width - 50), random.randint(80, self._height - 80)],
+                               random.randint(0, 360), 0, random.randint(50, 80)))
 
         # Player
         self._player = Player([settings.WIDTH, settings.HEIGHT])
@@ -48,7 +48,15 @@ class DirtWorld(BaseWorld):
         super().handle_events(events)
         for e in events:
             if e.type == pygame.MOUSEBUTTONDOWN:
-                self._entities.add(Skeleton(self.to_world_pos(e.pos), random.randint(0, 359), 0, random.randint(50, 80)))
+                # TODO: Add rock sprite
+                click_world = self.to_world_pos(e.pos)
+                dx = int(click_world[0] - self._player.get_x() - (self._player.get_width() / 2))
+                dy = int(click_world[1] - self._player.get_y() - (self._player.get_height() / 2))
+                angle = math.degrees(math.atan2(dy, dx))
+                # if dy > 0:
+                #     if dx > 0:
+                #         angle = math.atan2(dy, d)
+                self._entities.add(Rock([i + (self._player.get_width() / 2) for i in self._player.get_pos()], angle, 300))
 
     def update(self, micro):
         super().update(micro)

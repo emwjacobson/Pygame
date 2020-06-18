@@ -102,12 +102,6 @@ class Player(BaseEntity):
         else:
             self._cur_dir = self.Positons.DOWN
 
-        # Update position based on sprite angle and speed
-        dx = math.cos(math.radians(self._angle)) * self._speed
-        dy = math.sin(math.radians(self._angle)) * self._speed
-        self.add_x(dx * micro)
-        self.add_y(dy * micro)
-
         # Check boundries on the world, if they hit one then bounce off
         if self.get_x() + self.get_width() >= world.get_width():
             self.set_x(world.get_width() - self.get_width())

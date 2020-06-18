@@ -26,12 +26,8 @@ class Skeleton(BaseEntity):
     def update(self, micro, world):
         super().update(micro, world)
 
-        # Apply a random angle to make then walk in more than straight lines\
+        # Apply a random angle to make then walk in more than straight lines
         self.set_angle(self._angle + random.randint(-5, 5))
-        dx = math.cos(math.radians(self._angle)) * self._speed
-        dy = math.sin(math.radians(self._angle)) * self._speed
-        self.add_x(dx * micro)
-        self.add_y(dy * micro)
 
         # Check boundries on the world, if they hit one then bounce off
         if self.get_x() + self.get_width() >= world.get_width():
