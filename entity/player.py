@@ -80,14 +80,14 @@ class Player(BaseEntity):
                 self.set_angle(315)
 
         # Get the offset of the current direction
-        c = self._counter % 1
+        c = self._counter % 0.5
         if self._speed == 0:
             self._cur_dir_mod = 0
-        elif c > 0.75:
+        elif c > 0.125 * 3:
             self._cur_dir_mod = -1
-        elif c > 0.5:
+        elif c > 0.125 * 2:
             self._cur_dir_mod = 0
-        elif c > 0.25:
+        elif c > 0.125:
             self._cur_dir_mod = 1
         else:
             self._cur_dir_mod = 0
